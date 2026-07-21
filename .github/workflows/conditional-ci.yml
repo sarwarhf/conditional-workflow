@@ -1,0 +1,27 @@
+name: Conditional CI Pipeline
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Step
+        run: echo "Build completed successfully"
+
+  test:
+    needs: build
+    if: startsWith(github.ref, 'refs/heads/feature/') && success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Test Step
+        run: echo "Tests executed successfully"
